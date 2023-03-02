@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="background">
+
+    <div class="container">
+        <div class="topbar">
+            <div class="toptext">Players</div>
+            <input type="button" type="addPlayer" value="+" class="addbutton" onclick="addPlayer()" >
+        </div>
+        <div id="playercontainer" class="playercontainer">
+        </div>
+        <div class="bottombar">
+          <input type="button" value=">" class="nextturnbutton" onclick="nextTurn()">
+
+            <input type="button" value="Sort" class="sortbutton" onclick="sort()">
+        </div>
+    </div>
+</div>
+
+    <script>
+    function addPlayer() {
+    const div = document.createElement('div');
+    div.className = 'player';
+    div.id = "player";
+    div.innerHTML = `<input type="button" class="removeplayer" value="-" onclick="removePlayer(this)" />
+    <div class="textandfieldcontainer">
+    <div class="textcontainer">
+        <h1 class="nametext" >Name</1>
+        <h1>HP</1>
+        <h1>AC</1>
+        <h1>Iniative</1>
+        </div>
+    <div class="textfieldcontainer">
+    <input type="text" class="name" id="name" name="name" value="" placeholder=" " />
+    <input type="text" class="ac" id="ac" name="ac" value="" placeholder=" "/>
+    <input type="text" class="hp" id="hp" name="hp" value="" placeholder=" "/>
+    <input type="text" class="iniative" id="iniative" name="iniative" value="" placeholder=" "/>
+
+</div>
+
+`;
+    document.getElementById('playercontainer').appendChild(div);
+}
+document.onmouseup = DisablePlayer;
+
+function removePlayer(input) {
+  document.getElementById('playercontainer').removeChild(input.parentNode);
+}
+function DisablePlayer(){
+    
+
+      
+}
+
+
+
+
+let activeIndex = -1;
+
+function nextTurn(){
+    const players = document.querySelectorAll('.player');
+
+    // Reset all players' background color
+  players.forEach(player => {
+    player.classList.remove('active');
+  });
+
+  // Increment activeIndex or reset to 0 if all players have been colored
+  activeIndex = (activeIndex + 1) % players.length;
+
+  // Color the active player
+  players[activeIndex].classList.add('active');
+}
+
+
+function sort() {
+  const players = Array.from(document.querySelectorAll('.player'));
+
+  players.sort((a, b) => {
+    const aInitiative = parseInt(a.querySelector('.iniative').value);
+    const bInitiative = parseInt(b.querySelector('.iniative').value);
+    return bInitiative - aInitiative;
+  });
+
+  players.forEach(player => {
+    document.getElementById('playercontainer').appendChild(player);
+  });
+}
+
+
+    </script>
+
+    
+</body>
+</html>
